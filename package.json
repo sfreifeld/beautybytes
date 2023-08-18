@@ -13,5 +13,9 @@
     "gulp-open": "^3.0.1",
     "gulp-sass": "^4.0.1",
     "gulp-sourcemaps": "^2.6.4"
+  },
+  "dependencies": {
+    "contentful": "^10.4.2",
+    "uniq": "^1.0.1"
   }
 }

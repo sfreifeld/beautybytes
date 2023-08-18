@@ -1,0 +1,13 @@
+V1 - Producthunt release
+
+1. Working UI 
+    * click on article, goes to article
+    * click on tag, goes to page with all articles with that tag
+    * click on about, goes to about page
+
+
+V2 Producthunt rerelease, Reddit community,
+
+1. Email signup
+    * Newsletter?
+    * Exclusive stories?

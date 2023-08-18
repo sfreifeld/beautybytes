@@ -8,20 +8,29 @@ var client = contentful.createClient({
 
 var contentContainer = document.getElementById('contentful-example');
 
-client.getEntries()
-  .then(function (response) {
-    response.items.forEach(function (entry) {
+client.getEntry('25jwECAtIuwFDbBDuiFp7V')
+  .then(function (entry) {
       var entryTitle = entry.fields.articleName;
+      var entryTitleHTML = '<h2 class="mb-1 h4 font-weight-bold"><a class="text-white text-light" href="./article.html">' + entryTitle + '</a></h2>'
+      var entrySummary = entry.fields.articleSummary;
+      var entrySummaryHTML = '<p class="text-text">' + entrySummary + '</p>'
+      var entryThumbnail = entry.fields.articleThumbnail.fields.file.url;
+      var entryThumbnailHTML = '<img height="120" src=' + entryThumbnail + '">'
+      var entryTag = entry.fields.articleTags;
+      var entryTagHTML = '<div class="card-text text-muted small">' + entryTag + '</div>'
+      var entryDate = entry.fields.articleDate;
+      var entryDateHTML = '<small class="text-muted">' + entryDate + '</small>'
       var entryDiv = document.createElement('div');
-      entryDiv.className = 'class';
-      entryDiv.innerHTML = '<h2 class="text-text">' + entryTitle + '</h2>';
+      var entryDivThumbnailID = document.getElementById('contentful-thumbnail');
+      entryDivThumbnailID.innerHTML = entryThumbnailHTML
+      entryDiv.className = 'contentful-article';
+      entryDiv.innerHTML = entryTitleHTML + entrySummaryHTML + entryTagHTML + entryDateHTML
       contentContainer.appendChild(entryDiv);
-    }
-    );
 
-
-})
-.catch(console.error);
+    })
+    .catch(function (error) {
+      console.error('Error fetching entry:', error);
+    });
 
 
 

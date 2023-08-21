@@ -2260,17 +2260,51 @@ function generateHTML(entry, type) {
         </span>
       </li>
     `;
+  } else if (type == "Featured-Left") {
+    return `
+    <div class="card border-0 mb-4 box-shadow h-xl-300">              
+      <div style="background-image: url(./assets/img/background3.png); height: 150px;    background-size: cover;    background-repeat: no-repeat;"></div>               
+      <div class="card-body px-0 pb-0 d-flex flex-column align-items-start">
+        <h2 class="h4 font-weight-bold">
+          <a class="text-white text-light" href="./article.html"> ${entryTitle}</a>
+        </h2>
+        <p class="text-text">${entrySummary}</p>
+      <div>
+      <small class="text-muted">${entryDate}</small>
+        </div>
+      </div>
+    `
+  } else if (type == "Featured-Right") {
+    return `
+    <div class="mb-3 d-flex align-items-center">
+      <img height="80" src="https:${entryThumbnail}">
+      <div class="pl-3">
+        <h2 class="mb-2 h6 font-weight-bold">
+          <a class="text-white text-light" href="./article.html">${entryTitle}</a>
+        </h2>
+        <div class="card-text text-muted small">
+        ${entryTag}
+      </div>
+      <small class="text-muted">${entryDate}</small>
+    </div>
+  </div>`
   }
+  
 }
 
-// Inserting into HTML
-// Inserting into HTML
-async function insertEntries(containerIdRegular, containerIdPopular) {
+
+async function insertEntries(containerIdRegular, containerIdPopular, containerIdFeaturedLeft, containerIdFeaturedRight) {
   const entries = await getEntries();
   const containerRegular = document.getElementById(containerIdRegular);
   const containerPopular = document.getElementById(containerIdPopular);
+  const containerFeaturedLeft = document.getElementById(containerIdFeaturedLeft);
+  const containerFeaturedRight = document.getElementById(containerIdFeaturedRight);
+
+
 
   let popularCount = 0;
+  let featuredLeftCount = 0;
+  let featuredRightCount = 0;
 
   for (let i = 0; i < entries.length; i++) {
     let entry = entries[i];
@@ -2279,6 +2313,13 @@ async function insertEntries(containerIdRegular, containerIdPopular) {
     let htmlRegular = generateHTML(entry, 'Regular');
     containerRegular.innerHTML += htmlRegular;
 
+    if (entry.fields.articleType.includes('Featured-Left') && featuredLeftCount == 0) {
+      console.log('hi')
+      let htmlFeaturedLeft = generateHTML(entry, 'Featured-Left');
+      containerFeaturedLeft.innerHTML += htmlFeaturedLeft;
+      featuredLeftCount++;
+    }
+
     // If the entry type is Popular, generate Popular HTML as well
     // and the popularCount is less than 5, add to Popular
     if (entry.fields.articleType.includes('Popular') && popularCount < 5) {
@@ -2286,10 +2327,16 @@ async function insertEntries(containerIdRegular, containerIdPopular) {
       containerPopular.innerHTML += htmlPopular;
       popularCount++;
     }
+
+    if (entry.fields.articleType.includes('Featured-Right') && featuredRightCount < 3) {
+      let htmlFeaturedRight = generateHTML(entry, 'Featured-Right');
+      containerFeaturedRight.innerHTML += htmlFeaturedRight;
+      featuredRightCount++;
+    }
   }
 }
 
-insertEntries('contentful-example', 'list-featured');
+insertEntries('contentful-example', 'list-featured', 'featuredLeft', 'featuredRight');
 
 
 

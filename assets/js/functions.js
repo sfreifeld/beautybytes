@@ -129,6 +129,16 @@ async function insertEntries(containerIdRegular, containerIdPopular, containerId
   }
 }
 
+
+
+
+
+
+
+
+
+
+
 insertEntries('contentful-example', 'list-featured', 'featuredLeft', 'featuredRight');
 
 

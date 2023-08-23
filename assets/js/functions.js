@@ -1,6 +1,4 @@
 // Creates contenful connection
-var contentful = require('contentful');
-
 
 var client = contentful.createClient({
   space: '2z4ndwjxg4ws',
@@ -17,8 +15,86 @@ async function getEntries() {
   }
 }
 
+
+
+async function fetchArticleContent(articleId) {
+  try {
+    const entries = await client.getEntries({
+      'sys.id': articleId
+    });
+
+    if (entries.items.length > 0) {
+      const articleData = entries.items[0];
+      const entryTitle = articleData.fields.articleName || '';
+      const entryTitleElement = document.getElementById('article-title');
+      const entrySummary = articleData.fields.articleSummary || '';
+      const entrySummaryElement = document.getElementById('article-summary');
+      const entryThumbnail = articleData.fields.articleThumbnail?.fields.file.url || '';
+      const entryThumbnailElement = document.getElementById('article-thumbnail');
+      const entryDate = articleData.fields.articleDate || '';
+      const entryDateElement = document.getElementById('article-date');
+      const articleContentElement = document.getElementById('article-content');
+    
+      entryTitleElement.innerHTML = entryTitle;
+      entrySummaryElement.innerHTML = entrySummary;
+      entryThumbnailElement.src = "https:" + entryThumbnail
+      entryDateElement.innerHTML = entryDate;
+      
+      let articleContent = '';
+      for (let paragraph of articleData.fields.articleContent.content) {
+        if (paragraph.content) { // Check if the content property exists
+          for (let textNode of paragraph.content) {
+            articleContent += textNode.value;
+          }
+          articleContent += '<br><br>'; // Add a line break between paragraphs
+        }
+      }
+      
+      articleContentElement.innerHTML = articleContent;
+
+    } else {
+      console.error('No article found for the given ID');
+    }
+  } catch (error) {
+    console.error('Error fetching article content:', error);
+  }
+}
+
+document.addEventListener('DOMContentLoaded', async () => {
+  const urlParams = new URLSearchParams(window.location.search);
+  const articleId = urlParams.get('id');
+  
+  // Fetch article content based on the articleId from the Contentful API
+  fetchArticleContent(articleId);
+});
+
+
+document.addEventListener('DOMContentLoaded', () => {
+  const articleLinks = document.querySelectorAll('.article-link');
+  
+  articleLinks.forEach(link => {
+    link.addEventListener('click', async (event) => {
+      event.preventDefault(); // Prevent the default action
+      const articleId = new URL(link.href).searchParams.get('id');
+      await fetchArticleContent(articleId);
+    });
+  });
+});
+
+
+
+
+
+
+
+
+
+
+
+
 // Generating HTML
 function generateHTML(entry, type) {
+  const entryId = entry.sys.id;
   const entryTitle = entry.fields.articleName || '';
   const entryTag = entry.fields.articleTags || '';
   const entrySummary = entry.fields.articleSummary || '';
@@ -31,7 +107,7 @@ function generateHTML(entry, type) {
       <div class="mb-3 d-flex justify-content-between">
         <div class="contentful-article pr-3">
           <h2 class="mb-1 h4 font-weight-bold">
-            <a class="text-white text-light" href="./article.html">${entryTitle}</a>
+            <a class="article-link text-white text-light" href="./article.html?id=${entryId}">${entryTitle}</a>
           </h2>
           <p class="text-text">${entrySummary}</p>
           <div class="card-text text-muted small">${entryTag}</div>
@@ -47,7 +123,7 @@ function generateHTML(entry, type) {
       <li>
         <span>
           <h6 class="font-weight-bold">
-            <a href="./article.html" class="text-white text-light">${entryTitle}</a>
+            <a href="./article.html" class="article-link text-white text-light">${entryTitle}</a>
           </h6>
           <p class="text-muted">${entryTag}</p>
         </span>
@@ -59,7 +135,7 @@ function generateHTML(entry, type) {
       <div style="background-image: url(./assets/img/background3.png); height: 150px;    background-size: cover;    background-repeat: no-repeat;"></div>               
       <div class="card-body px-0 pb-0 d-flex flex-column align-items-start">
         <h2 class="h4 font-weight-bold">
-          <a class="text-white text-light" href="./article.html"> ${entryTitle}</a>
+          <a class="article-link text-white text-light" href="./article.html?id=${entryId}"> ${entryTitle}</a>
         </h2>
         <p class="text-text">${entrySummary}</p>
       <div>
@@ -73,7 +149,7 @@ function generateHTML(entry, type) {
       <img height="80" src="https:${entryThumbnail}">
       <div class="pl-3">
         <h2 class="mb-2 h6 font-weight-bold">
-          <a class="text-white text-light" href="./article.html">${entryTitle}</a>
+          <a class="text-white text-light" href="article.html?id=${entryId}">${entryTitle}</a>
         </h2>
         <div class="card-text text-muted small">
         ${entryTag}
@@ -87,13 +163,15 @@ function generateHTML(entry, type) {
 
 
 async function insertEntries(containerIdRegular, containerIdPopular, containerIdFeaturedLeft, containerIdFeaturedRight) {
-  const entries = await getEntries();
   const containerRegular = document.getElementById(containerIdRegular);
   const containerPopular = document.getElementById(containerIdPopular);
   const containerFeaturedLeft = document.getElementById(containerIdFeaturedLeft);
   const containerFeaturedRight = document.getElementById(containerIdFeaturedRight);
 
-
+  if (!containerRegular || !containerPopular || !containerFeaturedLeft || !containerFeaturedRight) {
+    return;
+  }
+  const entries = await getEntries();
 
   let popularCount = 0;
   let featuredLeftCount = 0;
@@ -107,7 +185,6 @@ async function insertEntries(containerIdRegular, containerIdPopular, containerId
     containerRegular.innerHTML += htmlRegular;
 
     if (entry.fields.articleType.includes('Featured-Left') && featuredLeftCount == 0) {
-      console.log('hi')
       let htmlFeaturedLeft = generateHTML(entry, 'Featured-Left');
       containerFeaturedLeft.innerHTML += htmlFeaturedLeft;
       featuredLeftCount++;

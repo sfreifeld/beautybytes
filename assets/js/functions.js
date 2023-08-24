@@ -105,7 +105,7 @@ function generateHTML(entry, type) {
   if (type == "Regular") {
     return `
       <div class="mb-3 d-flex justify-content-between">
-        <div class="contentful-article pr-3">
+        <div class="contentful-article pr-3 col-md-7">
           <h2 class="mb-1 h4 font-weight-bold">
             <a class="article-link text-white text-light" href="./article.html?id=${entryId}">${entryTitle}</a>
           </h2>

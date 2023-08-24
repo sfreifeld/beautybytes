@@ -6,8 +6,23 @@ V1 - Producthunt release
     * click on about, goes to about page
 
 
+Action Items
+* SEO 
+* make articles sorted by ArticleDate
+* advertisements
+* keyword searching for articles
+
+
+
+
+
+
+
+
 V2 Producthunt rerelease, Reddit community,
 
 1. Email signup
     * Newsletter?
     * Exclusive stories?
+
+

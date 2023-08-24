@@ -60,12 +60,68 @@ async function fetchArticleContent(articleId) {
   }
 }
 
+
+async function fetchPopularArticles() {
+  try {
+    const entries = await client.getEntries();
+    const popularEntries = entries.items.filter(entry => entry.fields.articleType.includes('Popular'));
+    popularEntries.sort((a, b) => new Date(b.fields.articleDate) - new Date(a.fields.articleDate));
+    const popularArticles = popularEntries.slice(0, 4);
+
+    const firstArticle = popularArticles[0];
+    const otherArticles = popularArticles.slice(1);
+
+    const htmlFirstArticle =  `
+          <div style="background-image: url(./assets/img/background3.png); height: 150px; background-size: cover; background-repeat: no-repeat;">
+				  </div>
+				  <div class="card-body px-0 pb-0 d-flex flex-column align-items-start">
+					<h2 class="h4 font-weight-bold">
+					<a class="text-white article-link" href="./article.html?id=${firstArticle.sys.id}">${firstArticle.fields.articleName}</a>
+					</h2>
+					<p class="text-text">
+          ${firstArticle.fields.articleSummary}
+					</p>
+					<div>
+						<small class="text-muted">${firstArticle.fields.articleDate}</small>
+					</div>
+				</div>
+        `;
+    const htmlOtherArticles = otherArticles.map(article => `
+        <div class="mb-3 d-flex align-items-center">
+        <img height="80" src="https:${article.fields.articleThumbnail.fields.file.url}">
+        <div class="pl-3">
+          <h2 class="mb-2 h6 font-weight-bold">
+          <a class="text-light article-link" href="./article.html?id=${article.sys.id}">${article.fields.articleName}</a>
+          </h2>
+          <div class="text-text text-muted small">
+          ${article.fields.articleTags}
+           </div>
+          <small class="text-muted">${article.fields.articleDate}</small>
+        </div>
+      </div>
+      `).join('');
+      return [htmlFirstArticle, htmlOtherArticles];
+  } catch (error) {
+    console.error('Error fetching popular articles:', error);
+  }
+}
+
+
+
 document.addEventListener('DOMContentLoaded', async () => {
   const urlParams = new URLSearchParams(window.location.search);
   const articleId = urlParams.get('id');
   
   // Fetch article content based on the articleId from the Contentful API
   fetchArticleContent(articleId);
+
+  // Fetch and display popular articles
+  fetchPopularArticles().then(([htmlFirstArticle, htmlOtherArticles]) => {
+    document.getElementById('next-popular-left').innerHTML = htmlFirstArticle;
+    document.getElementById('next-popular-right').innerHTML = htmlOtherArticles;
+  }).catch(error => {
+    console.error('Error setting HTML:', error);
+  });
 });
 
 
@@ -80,10 +136,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 });
-
-
-
-
 
 
 

@@ -1,9 +1,27 @@
 V1 - Producthunt release
 
 1. Working UI 
-    * click on article, goes to article
-    * click on tag, goes to page with all articles with that tag
-    * click on about, goes to about page
+* Articles sorted by article date
+* Fix date format
+* Better quality website images
+
+2. Contacts Us
+
+3. ProductHunt
+* Make thumbnail
+
+4. Advertisement 
+* Get ad newtwork
+* SEO
+* Affiliate marketing
+
+
+
+4. Code
+* Different js files for different pages
+* Decouple
+* Reusability
+* Standardization (ex. article vs. entry)
 
 
 Action Items

@@ -132,8 +132,7 @@ async function fetchCategoryArticles(category) {
       // Update the categoryFeatured HTML with the first entry's data
       if (entry.fields.articleType.includes("Featured-Left") || entry.fields.articleType.includes("Featured-Right")) {
       categoryFeatured.innerHTML = 
-    `<div style="background-image: url(https:${entry.fields.articleThumbnail?.fields.file.url}); height: 350px; background-size: cover; background-repeat: no-repeat;">
-    </div>
+    `<img class="pt-3"  src="https:${entry.fields.articleThumbnail?.fields.file.url}" style="width: 80%;">
     <div class="card-body px-0 pb-0 d-flex flex-column align-items-start">
       <h2 class="h2 font-weight-bold">
       <a class="text-white" href="./article.html?id=${entry.sys.id}">${entry.fields.articleName}</a>
@@ -194,17 +193,6 @@ async function fetchCategoryArticles(category) {
       </div>`;
       }
 
-
-
-
-
-
-
-
-
-
-
-
   } else { 
    console.error('No entries found for the given category');
   }
@@ -220,15 +208,6 @@ document.addEventListener('DOMContentLoaded', () => {
   // Fetch category articles based on the category from the URL
   fetchCategoryArticles(category);
 });
-
-
-
-
-
-
-
-
-
 
 
 
@@ -261,11 +240,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 });
-
-
-
-
-
 
 
 
@@ -316,6 +290,7 @@ function generateHTML(entry, type) {
         </h2>
         <p class="text-text">${entrySummary}</p>
       <div>
+      <small class="text-muted">${entryTag}</small><br>
       <small class="text-muted">${entryDate}</small>
         </div>
       </div>

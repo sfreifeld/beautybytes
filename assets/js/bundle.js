@@ -73,7 +73,7 @@ async function fetchPopularArticles() {
     const otherArticles = popularArticles.slice(1);
 
     const htmlFirstArticle =  `
-          <div style="background-image: url(./assets/img/demo/3.jpg); height: 150px; background-size: cover; background-repeat: no-repeat;">
+          <div style="background-image: url(./assets/img/background3.png); height: 150px; background-size: cover; background-repeat: no-repeat;">
 				  </div>
 				  <div class="card-body px-0 pb-0 d-flex flex-column align-items-start">
 					<h2 class="h4 font-weight-bold">
@@ -89,7 +89,7 @@ async function fetchPopularArticles() {
         `;
     const htmlOtherArticles = otherArticles.map(article => `
         <div class="mb-3 d-flex align-items-center">
-        <img height="80" src="https:${article.fields.articleThumbnail}">>
+        <img height="80" src="https:${article.fields.articleThumbnail.fields.file.url}">
         <div class="pl-3">
           <h2 class="mb-2 h6 font-weight-bold">
           <a class="text-light article-link" href="./article.html?id=${article.sys.id}">${article.fields.articleName}</a>
@@ -106,6 +106,131 @@ async function fetchPopularArticles() {
     console.error('Error fetching popular articles:', error);
   }
 }
+
+async function fetchCategoryArticles(category) {
+  try {
+    const entries = await client.getEntries({
+      content_type: 'article', // Replace with your Content Type ID
+      'fields.articleTags': category
+    });
+
+    // Get the category-title element after the entries have been fetched
+    const categoryFeaturedTitle = document.getElementById('category-title-featured');
+    const categoryPopularTitle = document.getElementById('category-title-popular');
+    const categoryFeatured = document.getElementById('category-featured')
+    const categoryPopular = document.getElementById('category-popular')
+    const categoryAll = document.getElementById('category-all')
+
+    categoryFeaturedTitle.innerHTML = "Featured in " + category;
+    categoryPopularTitle.innerHTML = "Popular in " + category;
+
+    // Check if there are any entries
+    if (entries.items.length > 0) {
+      // Get the first entry
+      for (let i = 0; i < entries.items.length; i++) {
+        const entry = entries.items[i];
+
+      // Update the categoryFeatured HTML with the first entry's data
+      if (entry.fields.articleType.includes("Featured-Left") || entry.fields.articleType.includes("Featured-Right")) {
+      categoryFeatured.innerHTML = 
+    `<div style="background-image: url(https:${entry.fields.articleThumbnail?.fields.file.url}); height: 350px; background-size: cover; background-repeat: no-repeat;">
+    </div>
+    <div class="card-body px-0 pb-0 d-flex flex-column align-items-start">
+      <h2 class="h2 font-weight-bold">
+      <a class="text-white" href="./article.html?id=${entry.sys.id}">${entry.fields.articleName}</a>
+      </h2>
+      <p class="text-text">
+      ${entry.fields.articleSummary}
+      </p>
+      <div>
+        <small class="text-muted">${entry.fields.articleDate}</small>
+      </div>
+    </div>`;
+    break;
+      }
+    }
+
+    let count = 0;
+    for (let i = 0; i < entries.items.length; i++) {
+      const entry = entries.items[i];
+    
+      // Update the categoryFeatured HTML with the first entry's data
+      if (entry.fields.articleType.includes("Popular")) {
+        categoryPopular.innerHTML += 
+        `<li>
+        <span>
+        <h6 class="font-weight-bold">
+        <a href="./article.html?id=${entry.sys.id}" class="text-white">${entry.fields.articleName}</a>
+        </h6>
+        <p class="text-muted">
+        ${entry.fields.articleTags}
+        </p>
+        </span>
+        </li>`;
+        count++;
+        if (count >= 5) {
+          break;
+        }
+      }
+    }
+
+    for (let i = 0; i < entries.items.length; i++) {
+      const entry = entries.items[i];    
+
+        categoryAll.innerHTML += 
+        `<div class="mb-3 d-flex justify-content-between"></div>
+        <div class="pr-3">
+        <h2 class="mb-1 h4 font-weight-bold">
+        <a class="text-white" href="./article.html?id=${entry.sys.id}">${entry.fields.articleName}</a>
+        </h2>
+        <p class="text-text">
+        ${entry.fields.articleSummary}
+        </p>
+        <div class="text-text text-muted small">
+           SCIENCE
+        </div>
+        <small class="text-muted"> ${entry.fields.articleTags}</small>
+      </div>
+      <img height="120" src="https:${entry.fields.articleThumbnail?.fields.file.url}">`;
+      }
+
+    
+
+
+
+
+
+
+
+
+
+
+
+  } else { 
+   console.error('No entries found for the given category');
+  }
+} catch (error) {
+  console.error('Error fetching category', error);
+  }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const urlParams = new URLSearchParams(window.location.search);
+  const category = urlParams.get('category');
+  
+  // Fetch category articles based on the category from the URL
+  fetchCategoryArticles(category);
+});
+
+
+
+
+
+
+
+
+
+
 
 
 

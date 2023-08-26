@@ -16,7 +16,7 @@
 <script src="https://cdn.jsdelivr.net/npm/contentful@latest/dist/contentful.browser.min.js"></script>
 <script>
 	var a2a_config = a2a_config || {};
-	a2a_config.icon_color = "#FF007F"; // Change this to the color you want
+	a2a_config.icon_color = "#FF007F";
 </script>
 </head>
 <body>
@@ -29,31 +29,31 @@ NAVBAR
 		<button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
 		<span class="navbar-toggler-icon"></span>
 		</button>
-		<div class="navbar-collapse collapse" id="navbarColor02" style="">
+		<div class="navbar-collapse collapse" id="navbarColor02">
 			<ul class="navbar-nav mr-auto d-flex align-items-center">
 				<li class="nav-item">
-				<a class="nav-link" href="./article.html">About</a>
+				<a class="nav-link" href="./category.html?category=About">About</a>
 				</li>
 				<li class="nav-item">
-				<a class="nav-link" href="./article.html">News</a>
+				<a class="nav-link" href="./category.html?category=News" onclick="fetchCategoryArticles('News')">News</a>
 				</li>
 				<li class="nav-item">
-				<a class="nav-link" href="./article.html">Events</a>
+				<a class="nav-link" href="./category.html?category=Events" onclick="fetchCategoryArticles('Events')">Events</a>
 				</li>
 				<li class="nav-item">
-				<a class="nav-link" href="./article.html">Sustainability</a>
+				<a class="nav-link" href="./category.html?category=Sustainability" onclick="fetchCategoryArticles('Sustainability')">Sustainability</a>
 				</li>
 				<li class="nav-item">
-				<a class="nav-link" href="./article.html">Spotlight</a>
+				<a class="nav-link" href="./category.html?category=Spotlight" onclick="fetchCategoryArticles('Spotlight')">Spotlight</a>
 				</li>
 				<li class="nav-item">
-				<a class="nav-link" href="./article.html">Trending</a>
+				<a class="nav-link" href="./category.html?category=Trending" onclick="fetchCategoryArticles('Trending')">Trending</a>
 				</li>            
 				<li class="nav-item">
-				<a class="nav-link" href="./article.html">Fact Or Fad</a>
+					<a class="nav-link" href="./category.html?category=Fact+Or+Fad" onclick="fetchCategoryArticles('Fact Or Fad')">Fact Or Fad</a>
 				</li>
 				<li class="nav-item">
-				<a class="nav-link" href="./article.html">Reviews</a>
+				<a class="nav-link" href="./category.html?category=Reviews" onclick="fetchCategoryArticles('Reviews')">Reviews</a>
 				</li>
 			</ul>
 			<ul class="navbar-nav ml-auto d-flex align-items-center">

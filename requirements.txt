@@ -5,16 +5,14 @@ V1 - Producthunt release
 * Fix date format
 * Better quality website images
 
-2. Contacts Us
 
-3. ProductHunt
+2 ProductHunt
 * Make thumbnail
 
-4. Advertisement 
+3. Advertisement 
 * Get ad newtwork
 * SEO
 * Affiliate marketing
-
 
 
 4. Code
@@ -22,6 +20,9 @@ V1 - Producthunt release
 * Decouple
 * Reusability
 * Standardization (ex. article vs. entry)
+
+5. Sources
+* Keyword research
 
 
 Action Items

@@ -72,7 +72,7 @@ async function fetchPopularArticles() {
     const otherArticles = popularArticles.slice(1);
 
     const htmlFirstArticle =  `
-          <div style="background-image: url(./assets/img/background3.png); height: 150px; background-size: cover; background-repeat: no-repeat;">
+          <div style="background-image: url(./assets/img/background3.webp); height: 150px; background-size: cover; background-repeat: no-repeat;">
 				  </div>
 				  <div class="card-body px-0 pb-0 d-flex flex-column align-items-start">
 					<h2 class="h4 font-weight-bold">
@@ -283,7 +283,7 @@ function generateHTML(entry, type) {
   } else if (type == "Featured-Left") {
     return `
     <div class="card border-0 mb-4 box-shadow h-xl-300">              
-      <div style="background-image: url(./assets/img/background3.png); height: 150px;    background-size: cover;    background-repeat: no-repeat;"></div>               
+      <div style="background-image: url(./assets/img/background3.webp); height: 150px;    background-size: cover;    background-repeat: no-repeat;"></div>               
       <div class="card-body px-0 pb-0 d-flex flex-column align-items-start">
         <h2 class="h4 font-weight-bold">
           <a class="article-link text-white text-light" href="./article.html?id=${entryId}"> ${entryTitle}</a>

@@ -33,14 +33,17 @@ body {
 }
 .secondfont, .navbar-brand {
     font-family: $font-secondary;
+    font-display: swap;
 }
 
 .thirdfont {
     font-family: $font-third;
+    font-display: swap;
 }
 
 .firstfont {
     font-family: $font-family-sans-serif;
+    font-display: swap;
 }
 
 
@@ -77,10 +80,13 @@ a.text-white:hover {
 .display-3 {
     @include media-breakpoint-down(md) {
         font-size: 3.5rem;
+        font-display: swap;
     }
     @include media-breakpoint-down(sm) {
         font-size: 2rem;
+        font-display: swap;
     }
+    
 }
 
 

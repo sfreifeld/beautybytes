@@ -84,7 +84,7 @@ async function fetchPopularArticles() {
           ${firstArticle.fields.articleSummary}
 					</p>
 					<div>
-						<small class="text-muted">${firstArticle.fields.articleDate}</small>
+						<small class="text-text">${firstArticle.fields.articleDate}</small>
 					</div>
 				</div>
         `;
@@ -95,10 +95,10 @@ async function fetchPopularArticles() {
           <h2 class="mb-2 h6 font-weight-bold">
           <a class="text-light article-link" href="./article.html?id=${article.sys.id}">${article.fields.articleName}</a>
           </h2>
-          <div class="text-text text-muted small">
+          <div class="text-text text-text small">
           ${article.fields.articleTags}
            </div>
-          <small class="text-muted">${article.fields.articleDate}</small>
+          <small class="text-text">${article.fields.articleDate}</small>
         </div>
       </div>
       `).join('');
@@ -143,9 +143,9 @@ async function fetchCategoryArticles(category) {
       ${entry.fields.articleSummary}
       </p>
       <div>
-        <small class="text-muted">${entry.fields.articleTags}</small>
+        <small class="text-text">${entry.fields.articleTags}</small>
         <br>
-        <small class="text-muted">${entry.fields.articleDate}</small>
+        <small class="text-text">${entry.fields.articleDate}</small>
       </div>
     </div>`;
     break;
@@ -164,7 +164,7 @@ async function fetchCategoryArticles(category) {
         <h6 class="font-weight-bold">
         <a href="./article.html?id=${entry.sys.id}" class="text-white">${entry.fields.articleName}</a>
         </h6>
-        <p class="text-muted">
+        <p class="text-text">
         ${entry.fields.articleTags}
         </p>
         </span>
@@ -188,8 +188,8 @@ async function fetchCategoryArticles(category) {
         <p class="text-text">
           ${entry.fields.articleSummary}
         </p>
-        <div class="text-text text-muted small"> ${entry.fields.articleTags}</div>
-        <small class="text-muted"> ${entry.fields.articleDate}</small>
+        <div class="text-text text-text small"> ${entry.fields.articleTags}</div>
+        <small class="text-text"> ${entry.fields.articleDate}</small>
       </div>
       <img height="120" src="https:${entry.fields.articleThumbnail?.fields.file.url}" alt="${entry.fields.articleAlt}">
       </div>`;
@@ -263,8 +263,8 @@ function generateHTML(entry, type) {
             <a class="article-link text-white text-light" href="./article.html?id=${entryId}">${entryTitle}</a>
           </h2>
           <p class="text-text">${entrySummary}</p>
-          <div class="card-text text-muted small">${entryTag}</div>
-          <small class="text-muted">${entryDate}</small>
+          <div class="card-text text-text small">${entryTag}</div>
+          <small class="text-text">${entryDate}</small>
         </div>
         <div class="pr-3">
           <img src="https:${entryThumbnail}" alt="${entryAlt}">
@@ -278,7 +278,7 @@ function generateHTML(entry, type) {
           <h6 class="font-weight-bold">
             <a href="./article.html" class="article-link text-white text-light">${entryTitle}</a>
           </h6>
-          <p class="text-muted">${entryTag}</p>
+          <p class="text-text">${entryTag}</p>
         </span>
       </li>
     `;
@@ -292,8 +292,8 @@ function generateHTML(entry, type) {
         </h2>
         <p class="text-text">${entrySummary}</p>
       <div>
-      <small class="text-muted">${entryTag}</small><br>
-      <small class="text-muted">${entryDate}</small>
+      <small class="text-text>${entryTag}</small><br>
+      <small class="text-text">${entryDate}</small>
         </div>
       </div>
     `
@@ -305,10 +305,10 @@ function generateHTML(entry, type) {
         <h2 class="mb-2 h6 font-weight-bold">
           <a class="text-white text-light" href="article.html?id=${entryId}">${entryTitle}</a>
         </h2>
-        <div class="card-text text-muted small">
+        <div class="card-text text-text small">
         ${entryTag}
       </div>
-      <small class="text-muted">${entryDate}</small>
+      <small class="text-text">${entryDate}</small>
     </div>
   </div>`
   }

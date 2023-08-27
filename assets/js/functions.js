@@ -53,6 +53,7 @@ async function fetchArticleContent(articleId) {
       }
       
       articleContentElement.innerHTML = articleContent;
+      document.title = entryTitle;
 
     } else {
       console.error('No article found for the given ID');
@@ -113,6 +114,7 @@ async function fetchCategoryArticles(category) {
     const entries = await client.getEntries({
       content_type: 'article', // Replace with your Content Type ID
       'fields.articleTags': category
+    
     });
 
     // Get the category-title element after the entries have been fetched
@@ -124,6 +126,8 @@ async function fetchCategoryArticles(category) {
 
     categoryFeaturedTitle.innerHTML = "Featured in " + category;
     categoryPopularTitle.innerHTML = "Popular in " + category;
+
+    document.title = category;
 
     // Check if there are any entries
     if (entries.items.length > 0) {

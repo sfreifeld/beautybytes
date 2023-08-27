@@ -89,7 +89,7 @@ async function fetchPopularArticles() {
         `;
     const htmlOtherArticles = otherArticles.map(article => `
         <div class="mb-3 d-flex align-items-center">
-        <img height="80" src="https:${article.fields.articleThumbnail.fields.file.url}">
+        <img height="80" src="https:${article.fields.articleThumbnail.fields.file.url}" alt="${article.fields.articleAlt}">
         <div class="pl-3">
           <h2 class="mb-2 h6 font-weight-bold">
           <a class="text-light article-link" href="./article.html?id=${article.sys.id}">${article.fields.articleName}</a>
@@ -133,7 +133,7 @@ async function fetchCategoryArticles(category) {
       // Update the categoryFeatured HTML with the first entry's data
       if (entry.fields.articleType.includes("Featured-Left") || entry.fields.articleType.includes("Featured-Right")) {
       categoryFeatured.innerHTML = 
-    `<img class="pt-5"  src="https:${entry.fields.articleThumbnail?.fields.file.url}" style="width: 80%;">
+    `<img class="pt-5"  src="https:${entry.fields.articleThumbnail?.fields.file.url}" style="width: 80%;" alt="${entry.fields.articleName}">
     <div class="card-body px-0 pb-0 d-flex flex-column align-items-start">
       <h2 class="h2 font-weight-bold">
       <a class="text-white" href="./article.html?id=${entry.sys.id}">${entry.fields.articleName}</a>
@@ -190,7 +190,7 @@ async function fetchCategoryArticles(category) {
         <div class="text-text text-muted small"> ${entry.fields.articleTags}</div>
         <small class="text-muted"> ${entry.fields.articleDate}</small>
       </div>
-      <img height="120" src="https:${entry.fields.articleThumbnail?.fields.file.url}">
+      <img height="120" src="https:${entry.fields.articleThumbnail?.fields.file.url}" alt="${entry.fields.articleAlt}">
       </div>`;
       }
 
@@ -252,7 +252,7 @@ function generateHTML(entry, type) {
   const entrySummary = entry.fields.articleSummary || '';
   const entryThumbnail = entry.fields.articleThumbnail?.fields.file.url || '';
   const entryDate = entry.fields.articleDate || '';
-  const entryType = entry.fields.articleType || '';
+  const entryAlt = entry.fields.articleAlt || '';
 
   if (type == "Regular") {
     return `
@@ -266,7 +266,7 @@ function generateHTML(entry, type) {
           <small class="text-muted">${entryDate}</small>
         </div>
         <div class="pr-3">
-          <img src="https:${entryThumbnail}">
+          <img src="https:${entryThumbnail}" alt=">${entryAlt}">
         </div>
       </div>
     `;
@@ -299,7 +299,7 @@ function generateHTML(entry, type) {
   } else if (type == "Featured-Right") {
     return `
     <div class="mb-3 d-flex align-items-center">
-      <img height="80" src="https:${entryThumbnail}">
+      <img height="80" src="https:${entryThumbnail}" alt="${entryAlt}">
       <div class="pl-3">
         <h2 class="mb-2 h6 font-weight-bold">
           <a class="text-white text-light" href="article.html?id=${entryId}">${entryTitle}</a>

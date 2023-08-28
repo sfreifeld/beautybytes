@@ -4,6 +4,7 @@ V1 - Producthunt release
 * Articles sorted by article date
 * Fix date format
 * Better quality website images
+* paginated loading for inifinite scroll
 
 
 2 ProductHunt
@@ -13,6 +14,7 @@ V1 - Producthunt release
 * Get ad newtwork
 * SEO
 * Affiliate marketing
+* Article structured data
 
 
 4. Code

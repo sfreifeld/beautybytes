@@ -46,13 +46,13 @@ async function fetchArticleContent(articleId) {
       let articleContent = '';
       for (let paragraph of articleData.fields.articleContent.content) {
         if (paragraph.content) { // Check if the content property exists
-          for (let textNode of paragraph.content) {
+          for (let textNode of paragraph.content) { 
             articleContent += textNode.value;
           }
           articleContent += '<br><br>'; // Add a line break between paragraphs
         }
       }
-      
+    
       articleContentElement.innerHTML = articleContent;
       document.title = entryTitle;
 
@@ -128,7 +128,7 @@ async function fetchCategoryArticles(category) {
     categoryFeaturedTitle.innerHTML = "Featured in " + category;
     categoryPopularTitle.innerHTML = "Popular in " + category;
 
-    document.title = category;
+    document.title = "Categories - " + category;
 
     // Check if there are any entries
     if (entries.items.length > 0) {
@@ -297,7 +297,7 @@ function generateHTML(entry, type) {
         </h2>
         <p class="text-text">${entrySummary}</p>
       <div>
-      <small class="text-text>${entryTag}</small><br>
+      <small class="text-text">${entryTag}</small><br>
       <small class="text-text">${entryDate}</small>
         </div>
       </div>

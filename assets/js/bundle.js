@@ -31,6 +31,7 @@ async function fetchArticleContent(articleId) {
       const entrySummary = articleData.fields.articleSummary || '';
       const entrySummaryElement = document.getElementById('article-summary');
       const entryThumbnail = articleData.fields.articleThumbnail?.fields.file.url || '';
+      const entryAlt = articleData.fields.articleAlt || '';
       const entryThumbnailElement = document.getElementById('article-thumbnail');
       const entryDate = articleData.fields.articleDate || '';
       const entryDateElement = document.getElementById('article-date');
@@ -38,7 +39,8 @@ async function fetchArticleContent(articleId) {
     
       entryTitleElement.innerHTML = entryTitle;
       entrySummaryElement.innerHTML = entrySummary;
-      entryThumbnailElement.src = "https:" + entryThumbnail
+      entryThumbnailElement.src = "https:" + entryThumbnail;
+      entryThumbnailElement.alt = entryAlt;
       entryDateElement.innerHTML = entryDate;
       
       let articleContent = '';
@@ -52,6 +54,7 @@ async function fetchArticleContent(articleId) {
       }
       
       articleContentElement.innerHTML = articleContent;
+      document.title = entryTitle;
 
     } else {
       console.error('No article found for the given ID');
@@ -73,7 +76,7 @@ async function fetchPopularArticles() {
     const otherArticles = popularArticles.slice(1);
 
     const htmlFirstArticle =  `
-          <div style="background-image: url(./assets/img/background3.png); height: 150px; background-size: cover; background-repeat: no-repeat;">
+          <div style="background-image: url(./assets/img/background3.webp); height: 150px; background-size: cover; background-repeat: no-repeat;">
 				  </div>
 				  <div class="card-body px-0 pb-0 d-flex flex-column align-items-start">
 					<h2 class="h4 font-weight-bold">
@@ -83,7 +86,7 @@ async function fetchPopularArticles() {
           ${firstArticle.fields.articleSummary}
 					</p>
 					<div>
-						<small class="text-muted">${firstArticle.fields.articleDate}</small>
+						<small class="text-text">${firstArticle.fields.articleDate}</small>
 					</div>
 				</div>
         `;
@@ -94,10 +97,10 @@ async function fetchPopularArticles() {
           <h2 class="mb-2 h6 font-weight-bold">
           <a class="text-light article-link" href="./article.html?id=${article.sys.id}">${article.fields.articleName}</a>
           </h2>
-          <div class="text-text text-muted small">
+          <div class="text-text text-text small">
           ${article.fields.articleTags}
            </div>
-          <small class="text-muted">${article.fields.articleDate}</small>
+          <small class="text-text">${article.fields.articleDate}</small>
         </div>
       </div>
       `).join('');
@@ -112,6 +115,7 @@ async function fetchCategoryArticles(category) {
     const entries = await client.getEntries({
       content_type: 'article', // Replace with your Content Type ID
       'fields.articleTags': category
+    
     });
 
     // Get the category-title element after the entries have been fetched
@@ -124,6 +128,8 @@ async function fetchCategoryArticles(category) {
     categoryFeaturedTitle.innerHTML = "Featured in " + category;
     categoryPopularTitle.innerHTML = "Popular in " + category;
 
+    document.title = category;
+
     // Check if there are any entries
     if (entries.items.length > 0) {
       // Get the first entry
@@ -133,7 +139,7 @@ async function fetchCategoryArticles(category) {
       // Update the categoryFeatured HTML with the first entry's data
       if (entry.fields.articleType.includes("Featured-Left") || entry.fields.articleType.includes("Featured-Right")) {
       categoryFeatured.innerHTML = 
-    `<img class="pt-5"  src="https:${entry.fields.articleThumbnail?.fields.file.url}" style="width: 80%;" alt="${entry.fields.articleName}">
+    `<img class="pt-3"  src="https:${entry.fields.articleThumbnail?.fields.file.url}" style="width: 80%;" alt="${entry.fields.articleAlt}">
     <div class="card-body px-0 pb-0 d-flex flex-column align-items-start">
       <h2 class="h2 font-weight-bold">
       <a class="text-white" href="./article.html?id=${entry.sys.id}">${entry.fields.articleName}</a>
@@ -142,9 +148,9 @@ async function fetchCategoryArticles(category) {
       ${entry.fields.articleSummary}
       </p>
       <div>
-        <small class="text-muted">${entry.fields.articleTags}</small>
+        <small class="text-text">${entry.fields.articleTags}</small>
         <br>
-        <small class="text-muted">${entry.fields.articleDate}</small>
+        <small class="text-text">${entry.fields.articleDate}</small>
       </div>
     </div>`;
     break;
@@ -163,7 +169,7 @@ async function fetchCategoryArticles(category) {
         <h6 class="font-weight-bold">
         <a href="./article.html?id=${entry.sys.id}" class="text-white">${entry.fields.articleName}</a>
         </h6>
-        <p class="text-muted">
+        <p class="text-text">
         ${entry.fields.articleTags}
         </p>
         </span>
@@ -187,8 +193,8 @@ async function fetchCategoryArticles(category) {
         <p class="text-text">
           ${entry.fields.articleSummary}
         </p>
-        <div class="text-text text-muted small"> ${entry.fields.articleTags}</div>
-        <small class="text-muted"> ${entry.fields.articleDate}</small>
+        <div class="text-text text-text small"> ${entry.fields.articleTags}</div>
+        <small class="text-text"> ${entry.fields.articleDate}</small>
       </div>
       <img height="120" src="https:${entry.fields.articleThumbnail?.fields.file.url}" alt="${entry.fields.articleAlt}">
       </div>`;
@@ -252,7 +258,7 @@ function generateHTML(entry, type) {
   const entrySummary = entry.fields.articleSummary || '';
   const entryThumbnail = entry.fields.articleThumbnail?.fields.file.url || '';
   const entryDate = entry.fields.articleDate || '';
-  const entryAlt = entry.fields.articleAlt || '';
+  const entryAlt = entry.fields.articleAlt|| '';
 
   if (type == "Regular") {
     return `
@@ -262,11 +268,11 @@ function generateHTML(entry, type) {
             <a class="article-link text-white text-light" href="./article.html?id=${entryId}">${entryTitle}</a>
           </h2>
           <p class="text-text">${entrySummary}</p>
-          <div class="card-text text-muted small">${entryTag}</div>
-          <small class="text-muted">${entryDate}</small>
+          <div class="card-text text-text small">${entryTag}</div>
+          <small class="text-text">${entryDate}</small>
         </div>
         <div class="pr-3">
-          <img src="https:${entryThumbnail}" alt=">${entryAlt}">
+          <img src="https:${entryThumbnail}" alt="${entryAlt}">
         </div>
       </div>
     `;
@@ -277,22 +283,22 @@ function generateHTML(entry, type) {
           <h6 class="font-weight-bold">
             <a href="./article.html" class="article-link text-white text-light">${entryTitle}</a>
           </h6>
-          <p class="text-muted">${entryTag}</p>
+          <p class="text-text">${entryTag}</p>
         </span>
       </li>
     `;
   } else if (type == "Featured-Left") {
     return `
     <div class="card border-0 mb-4 box-shadow h-xl-300">              
-      <div style="background-image: url(./assets/img/background3.png); height: 150px;    background-size: cover;    background-repeat: no-repeat;"></div>               
+      <div style="background-image: url(./assets/img/background3.webp); height: 150px;    background-size: cover;    background-repeat: no-repeat;"></div>               
       <div class="card-body px-0 pb-0 d-flex flex-column align-items-start">
         <h2 class="h4 font-weight-bold">
           <a class="article-link text-white text-light" href="./article.html?id=${entryId}"> ${entryTitle}</a>
         </h2>
         <p class="text-text">${entrySummary}</p>
       <div>
-      <small class="text-muted">${entryTag}</small><br>
-      <small class="text-muted">${entryDate}</small>
+      <small class="text-text>${entryTag}</small><br>
+      <small class="text-text">${entryDate}</small>
         </div>
       </div>
     `
@@ -304,10 +310,10 @@ function generateHTML(entry, type) {
         <h2 class="mb-2 h6 font-weight-bold">
           <a class="text-white text-light" href="article.html?id=${entryId}">${entryTitle}</a>
         </h2>
-        <div class="card-text text-muted small">
+        <div class="card-text text-text small">
         ${entryTag}
       </div>
-      <small class="text-muted">${entryDate}</small>
+      <small class="text-text">${entryDate}</small>
     </div>
   </div>`
   }

@@ -10,11 +10,13 @@ V1 - Producthunt release
 2 ProductHunt
 * Make thumbnail
 
+
 3. Advertisement 
 * Get ad newtwork
 * SEO
 * Affiliate marketing
 * Article structured data
+* Fix favicon for google search
 
 
 4. Code

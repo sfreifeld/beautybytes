@@ -329,7 +329,9 @@ async function insertEntries(containerIdRegular, containerIdPopular, containerId
   if (!containerRegular || !containerPopular || !containerFeaturedLeft || !containerFeaturedRight) {
     return;
   }
-  const entries = await getEntries();
+  let entries = await getEntries();
+
+  entries.sort((a, b) => new Date(b.fields.articleDate) - new Date(a.fields.articleDate));
 
   let popularCount = 0;
   let featuredLeftCount = 0;
